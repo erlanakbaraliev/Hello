@@ -31,14 +31,15 @@ configure_authenticated_workspace_page(page_title="Predict future quality · Urb
 uid = current_user_id()
 assert uid is not None
 _settings = get_user_settings(uid)
-_model_options = ("ARIMA", "LSTM", "XGBoost")
-_default_model = _settings.get("default_model") or "ARIMA"
+_model_options = ("LSTM", "XGBoost")
+_default_model = _settings.get("default_model") or "LSTM"
 _model_index = _model_options.index(_default_model) if _default_model in _model_options else 0
 
 hero_title(
     "Predict future quality",
     "Upload recent hourly observations (training schema), select a model, and generate a "
-    "<strong>168-hour</strong> (one week, hourly) PM₂.₅ forecast aligned with the training notebooks.",
+    "<strong>168-hour</strong> (one week, hourly) forecast for pollutants and weather, "
+    "with PM₂.₅ visualization aligned with the training notebooks.",
 )
 
 ctrl1, ctrl2 = st.columns([1.4, 0.6], gap="medium")
@@ -46,14 +47,14 @@ with ctrl1:
     uploaded = st.file_uploader(
         "Hourly air quality CSV",
         type=["csv"],
-        help="Columns: time, pm10, pm2_5, carbon_monoxide, nitrogen_dioxide, sulphur_dioxide, ozone.",
+        help="Columns: time, pm10, pm2_5, carbon_monoxide, nitrogen_dioxide, sulphur_dioxide, ozone, temperature, wind_speed.",
     )
 with ctrl2:
     model_choice = st.selectbox(
         "Model",
         _model_options,
         index=_model_index,
-        help="Default comes from Settings. ARIMA: saved SARIMAX fit. LSTM / XGBoost: notebook-aligned preprocessing.",
+        help="Default comes from Settings. LSTM / XGBoost use recursive 168-hour forecasting.",
     )
 
 if st.button("Run forecast", type="primary", use_container_width=False):
@@ -67,11 +68,12 @@ if st.button("Run forecast", type="primary", use_container_width=False):
         except Exception as exc:
             st.error(f"Unexpected error while loading data: {exc}")
         else:
-            y_hist = df["pm2_5"].astype(float).to_numpy()
+            hist_df = df[fc.FORECAST_OUTPUT_COLUMNS].astype(float).copy()
+            y_hist = hist_df["pm2_5"].to_numpy()
             hist_idx = df.index
 
             try:
-                fc_idx, fc_vals = pp.dispatch_hourly_forecast(df, model_choice, fc)
+                fc_idx, fc_df = pp.dispatch_hourly_forecast(df, model_choice, fc)
             except FileNotFoundError as exc:
                 st.error(str(exc))
             except ImportError as exc:
@@ -79,11 +81,12 @@ if st.button("Run forecast", type="primary", use_container_width=False):
             except Exception as exc:
                 st.error(f"Forecast failed: {exc}")
             else:
+                fc_vals = fc_df["pm2_5"].astype(float).to_numpy()
                 fig = pp.build_pm25_forecast_figure(hist_idx, y_hist, fc_idx, fc_vals, ch)
                 st.plotly_chart(fig, use_container_width=True)
 
                 try:
-                    payload = fc.prediction_payload(model_choice, hist_idx, y_hist, fc_idx, fc_vals)
+                    payload = fc.prediction_payload(model_choice, hist_idx, hist_df, fc_idx, fc_df)
                     save_prediction(uid, model_choice, payload)
                     st.success("Prediction saved to your history.")
                 except KeyError:

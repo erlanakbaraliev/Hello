@@ -11,17 +11,16 @@ import plotly.graph_objects as go
 
 def dispatch_hourly_forecast(
     df: pd.DataFrame, model_choice: str, fc: Any
-) -> tuple[pd.DatetimeIndex, np.ndarray]:
+) -> tuple[pd.DatetimeIndex, pd.DataFrame]:
     """Run the selected hourly model; returns ``(forecast_index, forecast_values)``."""
-    if model_choice == "ARIMA":
-        arima = fc.load_arima_model()
-        return fc.forecast_arima(df["pm2_5"], arima)
     if model_choice == "LSTM":
         lstm = fc.load_lstm_model()
-        scaler = fc.load_lstm_scaler()
-        return fc.forecast_lstm(df, lstm, scaler)
-    xgb = fc.load_xgboost_model()
-    return fc.forecast_xgboost(df, xgb)
+        artifacts = fc.load_lstm_artifacts()
+        return fc.forecast_lstm(df, lstm, artifacts)
+    if model_choice == "XGBoost":
+        xgb = fc.load_xgboost_model()
+        return fc.forecast_xgboost(df, xgb)
+    raise ValueError(f"Unsupported model selection: {model_choice}")
 
 
 def build_pm25_forecast_figure(
