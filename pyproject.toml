@@ -1,0 +1,30 @@
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = ["notebooks", "data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["E501", "B905"]
+
+[tool.ruff.lint.per-file-ignores]
+"app.py" = ["E402"]
+# Streamlit entry scripts run importlib bootstrap before ``from app...`` (see invoke_bootstrap.py).
+"app/Home.py" = ["E402"]
+"app/pages/*" = ["E402"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+check_untyped_defs = true
+exclude = ["notebooks/"]

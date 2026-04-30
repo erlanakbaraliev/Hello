@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# Local runtime and secrets
+.streamlit/
+air_quality.db
+
+# Generated model artifacts
+models/
+*.joblib
+*.keras
+*.pkl
+
+# Coverage outputs
+.coverage
+htmlcov/
