@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from data_processing import load_dataset_from_data_folder, validate_and_prepare
+from back_end.data_processing import load_dataset_from_data_folder, validate_and_prepare
 
 
 def aqi_category(pm25: float) -> tuple[int, str]:

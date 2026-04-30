@@ -1,4 +1,5 @@
 .venv/
+venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -11,8 +12,8 @@ __pycache__/
 .streamlit/
 air_quality.db
 
-# Generated model artifacts
-models/
+# Generated forecast outputs (not model artifacts)
+models/forecast_outputs/
 *.joblib
 *.keras
 *.pkl

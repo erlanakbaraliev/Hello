@@ -1,0 +1,81 @@
+\documentclass[
+	%parspace,
+	%noindent,
+	%nohyp,
+	%twoside,
+	%draft,
+	%final,
+]{elteikthesis}[2024/04/26]
+
+% Document's metadata
+\title{A Data-Driven Machine Learning Platform for Urban Air Quality Prediction and Risk Assessment} % title
+\date{2026} % year of defense
+
+% Author's metadata
+\author{Musaev Kutmanbek}
+\degree{Computer Science BSc}
+
+% Supervisor(s)' metadata
+\supervisor{Szabó László Ferenc} % internal supervisor's name
+\affiliation{Associate Professor and Chair} % internal supervisor's affiliation
+
+% University's metadata
+\university{Eötvös Loránd University} % university's name
+\faculty{Faculty of Informatics} % faculty's name
+\department{Dept. of Algorithms and Applications} % department's name
+\city{Budapest} % city
+\logo{elte_cimer_szines} % logo
+
+% Add bibliography file
+\addbibresource{references.bib}
+
+% The document
+\begin{document}
+
+% Set document language
+\documentlang{english}
+
+% Title page (mandatory)
+\maketitle
+
+% Table of contents (mandatory)
+\tableofcontents
+\cleardoublepage
+
+% Main content
+\input{chapters/intro.tex}
+\cleardoublepage
+
+\input{chapters/user.tex}
+\cleardoublepage
+
+\input{chapters/impl.tex}
+\cleardoublepage
+
+\input{chapters/sum.tex}
+\cleardoublepage
+
+% Acknowledgements
+\chapter*{\acklabel}
+\addcontentsline{toc}{chapter}{\acklabel}
+I would like to thank my supervisor, Szabó László Ferenc, for his guidance and support throughout this project. I also thank the London Air Quality Network (LAQN) for providing the open dataset used in this work.
+
+% Bibliography (mandatory)
+\phantomsection
+\addcontentsline{toc}{chapter}{\biblabel}
+\printbibliography[title=\biblabel]
+\cleardoublepage
+
+% List of figures (optional)
+\phantomsection
+\addcontentsline{toc}{chapter}{\lstfigurelabel}
+\listoffigures
+\cleardoublepage
+
+% List of tables (optional)
+\phantomsection
+\addcontentsline{toc}{chapter}{\lsttablelabel}
+\listoftables
+\cleardoublepage
+
+\end{document}

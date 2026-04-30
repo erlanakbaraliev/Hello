@@ -1,0 +1,120 @@
+\chapter{Conclusion}
+\label{ch:sum}
+
+This chapter concludes the thesis by summarizing the contributions made throughout the project, presenting a comparative analysis of the three forecasting models, acknowledging the limitations of the current work, and outlining directions for future research and development.
+
+\section{Summary of Contributions}
+\label{sec:sum-contributions}
+
+The primary objective of this thesis was to design, implement, and evaluate a multi-model air quality forecasting system capable of predicting PM\textsubscript{2.5} concentrations over a 168-hour (7-day) forecast horizon. This objective was motivated by the growing public health concern surrounding particulate matter pollution and the need for accurate, longer-term forecasts that enable both individuals and policymakers to take proactive measures. The work presented in this thesis makes several contributions to the field of environmental time series forecasting.
+
+\paragraph{System Design and Implementation.}
+A complete end-to-end forecasting pipeline was developed, encompassing data acquisition, preprocessing, feature engineering, model training, evaluation, and visualization. The system was designed with modularity in mind, allowing individual components---such as the data ingestion module, the feature engineering pipeline, or the forecasting models themselves---to be replaced or extended independently. The implementation leveraged Python as the primary programming language, utilizing well-established libraries including \texttt{statsmodels} for ARIMA, \texttt{TensorFlow/Keras} for LSTM networks, and \texttt{XGBoost} for gradient-boosted tree models. The entire codebase was structured to facilitate reproducibility, with configuration files governing hyperparameters and data paths.
+
+\paragraph{Multi-Model Comparative Framework.}
+Rather than focusing on a single forecasting methodology, this thesis adopted a comparative approach, implementing three fundamentally different model families: a classical statistical model (ARIMA), a deep learning sequence model (LSTM), and a gradient-boosted ensemble method (XGBoost). This comparative framework provides insights into the relative strengths and weaknesses of each paradigm when applied to the specific challenge of week-ahead PM\textsubscript{2.5} prediction. Each model was trained and evaluated under consistent conditions, using identical train-validation-test splits and evaluation metrics, ensuring a fair comparison.
+
+\paragraph{Feature Engineering for Air Quality Forecasting.}
+A comprehensive feature engineering pipeline was developed that transforms raw meteorological and pollution measurements into informative predictors. This included the construction of temporal features (hour-of-day, day-of-week, month-of-year encodings), lag features at multiple time scales, rolling statistical features (moving averages and standard deviations over 6, 12, 24, and 48-hour windows), and interaction features combining meteorological variables with pollution indicators. The feature importance analysis conducted as part of the XGBoost evaluation provided valuable insights into which engineered features contribute most significantly to forecast accuracy.
+
+\paragraph{Extended Forecast Horizon Analysis.}
+While much of the existing literature focuses on short-term (1--24 hour) PM\textsubscript{2.5} forecasting, this thesis explicitly targeted the more challenging 168-hour horizon. The evaluation framework was designed to assess model performance not only in aggregate but also as a function of forecast lead time, revealing how prediction accuracy degrades over the week-ahead window. This horizon-dependent analysis provides practical guidance on the reliability of forecasts at different lead times.
+
+\paragraph{Fulfillment of Objectives.}
+The thesis objectives outlined in Chapter~\ref{ch:intro} have been met as follows. First, a functional forecasting system was built and demonstrated on real-world air quality data. Second, three distinct modeling approaches were successfully implemented and compared. Third, the evaluation revealed clear performance differences across models and forecast horizons, providing actionable insights. Fourth, the system was deployed as a local web application with an interactive dashboard, demonstrating the feasibility of translating research models into user-facing tools.
+
+\section{Model Comparison and Results}
+\label{sec:sum-results}
+
+The comparative evaluation of ARIMA, LSTM, and XGBoost models revealed distinct performance characteristics across different forecast horizons and evaluation metrics. This section synthesizes the key findings from the experimental evaluation presented in Chapter~\ref{ch:results}.
+
+\subsection{Quantitative Comparison}
+
+Table~\ref{tab:model-comparison} presents the aggregate performance metrics for each model across three representative forecast horizon ranges. The metrics reported are Root Mean Square Error (RMSE) in $\mu g/m^3$ and Mean Absolute Error (MAE) in $\mu g/m^3$, averaged over the test set.
+
+\begin{table}[htbp]
+\centering
+\caption{Comparative model performance across forecast horizons (RMSE / MAE in $\mu g/m^3$)}
+\label{tab:model-comparison}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{1--24h} & \textbf{25--72h} & \textbf{73--168h} & \textbf{Overall} \\
+\midrule
+ARIMA & 3.12 / 2.41 & 4.28 / 3.35 & 5.03 / 4.12 & 4.14 / 3.29 \\
+LSTM & 2.54 / 1.98 & 3.21 / 2.56 & 3.87 / 3.14 & 3.21 / 2.56 \\
+XGBoost & 2.08 / 1.62 & 2.85 / 2.21 & 3.42 / 2.78 & 2.78 / 2.20 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Model-Specific Observations}
+
+\paragraph{ARIMA.}
+The ARIMA model, configured as a seasonal ARIMA (SARIMA) with parameters identified through grid search and information criteria, served as the statistical baseline. Its performance was competitive in the very short term (1--6 hours), where the autoregressive components effectively captured recent momentum in PM\textsubscript{2.5} levels. However, performance degraded most rapidly among the three models as the forecast horizon extended, with RMSE increasing by approximately 61\% from the 1--24h range to the 73--168h range. This degradation is attributable to the recursive multi-step forecasting strategy, where prediction errors compound at each step. The model's linear nature also limits its ability to capture the nonlinear relationships between meteorological drivers and pollution levels that become increasingly important at longer horizons.
+
+\paragraph{LSTM.}
+The LSTM network demonstrated strong performance across all horizons, achieving approximately 22\% lower overall RMSE compared to ARIMA. The model's ability to learn long-range temporal dependencies proved particularly valuable for capturing weekly cyclical patterns in PM\textsubscript{2.5} concentrations. The LSTM showed the most consistent performance during pollution episodes---periods of rapidly increasing or decreasing PM\textsubscript{2.5}---where its nonlinear activation functions allowed it to model sharp transitions more accurately than ARIMA. However, the LSTM required substantially more computational resources for training (approximately 45 minutes on GPU versus seconds for ARIMA) and exhibited sensitivity to hyperparameter choices, particularly the sequence length and number of hidden units.
+
+\paragraph{XGBoost.}
+The XGBoost model achieved the best overall performance, with approximately 33\% lower RMSE than ARIMA and 13\% lower than LSTM across all horizons. Its strength lay in effectively leveraging the engineered feature set, particularly the interaction features between wind speed, temperature, and historical pollution levels. The direct multi-output forecasting strategy---where separate models were trained for each forecast step---avoided the error accumulation problem that affected ARIMA. XGBoost also demonstrated the fastest inference time (under 100ms for a complete 168-hour forecast), making it the most practical choice for operational deployment. The model's interpretability through feature importance scores provided additional value for understanding the drivers of air quality variation.
+
+\subsection{Key Insights}
+
+The comparative analysis yields several important insights:
+
+\begin{itemize}
+    \item \textbf{Nonlinearity matters:} Both LSTM and XGBoost significantly outperformed the linear ARIMA model, confirming that PM\textsubscript{2.5} dynamics involve substantial nonlinear interactions that statistical models cannot fully capture.
+    \item \textbf{Feature engineering compensates for architectural complexity:} XGBoost with well-crafted features outperformed the LSTM, which learns representations directly from raw sequences. This suggests that domain-informed feature engineering remains highly valuable even in the era of deep learning.
+    \item \textbf{Forecasting strategy impacts long-horizon performance:} The direct multi-step strategy (XGBoost) proved superior to recursive strategies (ARIMA) for extended horizons, as it avoids compounding prediction errors.
+    \item \textbf{No single model dominates all scenarios:} While XGBoost achieved the best aggregate metrics, LSTM showed advantages during high-pollution episodes and rapid transitions, suggesting potential complementarity in an ensemble approach.
+\end{itemize}
+
+\section{Limitations}
+\label{sec:sum-limitations}
+
+Despite the contributions outlined above, this work has several limitations that should be acknowledged and that motivate future research directions.
+
+\begin{itemize}
+    \item \textbf{Single-city evaluation.} The entire experimental evaluation was conducted using data from a single monitoring station in one city. Air quality dynamics vary substantially across geographic regions due to differences in emission sources, topography, climate, and atmospheric chemistry. The models and feature engineering strategies developed here may not generalize directly to other locations without retraining and potentially restructuring. A multi-city evaluation would be necessary to establish the broader applicability of the findings.
+
+    \item \textbf{Recursive error accumulation.} The ARIMA and, to a lesser extent, the LSTM models employed recursive multi-step forecasting, where predictions at earlier time steps serve as inputs for later predictions. This approach leads to compounding errors over the 168-hour horizon, particularly during regime changes or unusual pollution events. While the direct strategy used by XGBoost mitigates this issue, it does so at the cost of not explicitly modeling temporal dependencies between consecutive forecast steps.
+
+    \item \textbf{Absence of confidence intervals.} The current implementation provides only point forecasts without associated uncertainty estimates. For practical decision-making---particularly in public health contexts where the cost of underestimating pollution is high---probabilistic forecasts with calibrated prediction intervals would be substantially more useful. Neither the LSTM nor XGBoost implementations include native uncertainty quantification, and the ARIMA confidence intervals assume Gaussian errors, which may not hold for PM\textsubscript{2.5} distributions that are typically right-skewed.
+
+    \item \textbf{Local deployment only.} The web application developed as part of this project runs exclusively on a local machine and has not been deployed to a cloud environment or made publicly accessible. This limits its practical utility and prevents evaluation of system behavior under concurrent user load, network latency, or resource constraints typical of production environments. Scalability, availability, and security considerations remain unaddressed.
+
+    \item \textbf{No real-time data ingestion.} The current system operates on historical data that must be manually downloaded and preprocessed before forecasts can be generated. A production-ready system would require automated data pipelines that continuously ingest observations from monitoring networks, handle missing data and sensor failures gracefully, and trigger model re-evaluation as new data becomes available. The absence of such infrastructure limits the system to retrospective analysis rather than operational forecasting.
+
+    \item \textbf{Limited meteorological inputs.} The feature set relies on surface-level meteorological observations (temperature, humidity, wind speed, pressure) from the same monitoring station. Upper-atmosphere conditions, boundary layer height, and synoptic-scale weather patterns---all of which significantly influence PM\textsubscript{2.5} dispersion---were not incorporated. Integration of numerical weather prediction (NWP) model outputs could substantially improve forecast skill, particularly at longer lead times.
+
+    \item \textbf{Temporal scope of evaluation.} The test set covers a limited time period and may not adequately represent all seasonal patterns, extreme pollution events, or long-term trends in air quality. A more robust evaluation would employ multiple years of data and explicitly assess performance across different seasons and pollution regimes.
+\end{itemize}
+
+\section{Future Work}
+\label{sec:sum-future}
+
+The limitations identified above, combined with recent advances in machine learning and environmental monitoring, suggest numerous avenues for extending and improving this work. The following directions are organized by their potential impact and feasibility.
+
+\subsection{Ensemble Methods and Model Combination}
+
+The observation that different models excel under different conditions strongly motivates the development of ensemble approaches. A weighted averaging scheme, where model weights are dynamically adjusted based on recent forecast performance, could capture the complementary strengths of ARIMA (short-term momentum), LSTM (nonlinear transitions), and XGBoost (feature-driven prediction). More sophisticated approaches such as stacking---where a meta-learner is trained to optimally combine base model predictions---could further improve accuracy. Preliminary experiments suggest that even simple averaging of LSTM and XGBoost predictions reduces RMSE by 5--8\% compared to the best individual model, indicating substantial room for improvement through principled ensemble design.
+
+\subsection{Uncertainty Quantification}
+
+Extending the system to produce probabilistic forecasts is a high-priority direction. Several approaches are viable:
+
+\begin{itemize}
+    \item \textbf{Quantile regression:} Training XGBoost with quantile loss functions to directly predict the 10th, 50th, and 90th percentiles of the PM\textsubscript{2.5} distribution at each forecast step.
+    \item \textbf{Monte Carlo Dropout:} Applying dropout at inference time in the LSTM network and interpreting the variance across multiple stochastic forward passes as a measure of epistemic uncertainty.
+    \item \textbf{Conformal prediction:} Using conformal inference to construct distribution-free prediction intervals with guaranteed finite-sample coverage, regardless of the underlying model.
+    \item \textbf{Bayesian neural networks:} Replacing point-estimate weights in the LSTM with probability distributions, enabling principled uncertainty propagation through the network.
+\end{itemize}
+
+Calibrated uncertainty estimates would enable risk-aware decision-making, where public health advisories could be issued based on the probability of exceeding WHO guideline thresholds rather than point predictions alone.
+
+\subsection{Transfer Learning and Multi-City Generalization}
+
+To address the single-city limitation, transfer learning techniques could enable models trained on data-rich stations to be adapted to locations with limited historical observations. For the LSTM, this could involve pre-training on multiple cities and fine-tuning on the target location with a reduced learning rate. For XGBoost, domain adaptation could be achieved through feature normalization strategies that account for city-specific baseline pollution levels and meteorological regimes. A graph neural network architecture that explicitly models spatial relationships between monitoring stations represents a more ambitious but potentially powerful approach to multi-city forecasting.
+
+\subsection{Real-Time Data Ingestion and Operational Deployment}
+

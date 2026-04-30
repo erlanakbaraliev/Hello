@@ -10,9 +10,9 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app import charts as ch
-from app.ui import configure_authenticated_workspace_page, current_user_id, empty_state, hero_title
-from database import delete_history_entry, get_history_filtered
+from front_end import charts as ch
+from front_end.ui import configure_authenticated_workspace_page, current_user_id, empty_state, hero_title
+from db import delete_history_entry, get_history_filtered
 
 configure_authenticated_workspace_page(page_title="History · Urban air quality")
 hero_title("History", "Review, download, and manage past prediction runs.")

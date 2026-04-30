@@ -52,7 +52,7 @@ def restore_session() -> None:
     token = _get_cookie(_AUTH_COOKIE_NAME)
     if not token:
         return
-    from database import verify_auth_token
+    from db import verify_auth_token
 
     result = verify_auth_token(token)
     if result is None:
@@ -65,7 +65,7 @@ def restore_session() -> None:
 
 def persist_session(user_id: int) -> None:
     """After login, create a token and set it as a cookie."""
-    from database import create_auth_token
+    from db import create_auth_token
 
     token = create_auth_token(user_id)
     _set_cookie(_AUTH_COOKIE_NAME, token)
@@ -75,7 +75,7 @@ def clear_persistent_session() -> None:
     """On logout, delete the token and cookie."""
     token = _get_cookie(_AUTH_COOKIE_NAME)
     if token:
-        from database import delete_auth_token
+        from db import delete_auth_token
 
         delete_auth_token(token)
     _delete_cookie(_AUTH_COOKIE_NAME)

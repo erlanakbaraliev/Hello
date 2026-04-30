@@ -1,0 +1,180 @@
+\chapter{Introduction}
+\label{ch:intro}
+
+\section{Motivation}
+\label{sec:motivation}
+
+Air pollution represents one of the most pressing environmental and public health challenges of the twenty-first century. The World Health Organization (WHO) estimates that ambient air pollution contributes to approximately 4.2 million premature deaths annually worldwide, making it the single largest environmental risk factor for human health \cite{who2021airquality}. Among the various pollutants that degrade urban air quality, particulate matter with an aerodynamic diameter of less than 2.5 micrometres (PM\textsubscript{2.5}) poses the greatest threat to human well-being due to its ability to penetrate deep into the respiratory system and enter the bloodstream \cite{pope2006health}.
+
+The health consequences of prolonged exposure to elevated PM\textsubscript{2.5} concentrations are both severe and wide-ranging. Epidemiological studies have established robust causal links between PM\textsubscript{2.5} exposure and cardiovascular disease, chronic obstructive pulmonary disease (COPD), lung cancer, stroke, and acute lower respiratory infections \cite{burnett2014integrated}. Short-term exposure to pollution spikes has been associated with increased hospital admissions for respiratory and cardiac events, exacerbation of asthma symptoms, and elevated mortality rates among vulnerable populations including the elderly, children, and individuals with pre-existing conditions \cite{dominici2006fine}. The WHO's 2021 updated Global Air Quality Guidelines recommend an annual mean PM\textsubscript{2.5} concentration of no more than 5~$\mu$g/m\textsuperscript{3} and a 24-hour mean of no more than 15~$\mu$g/m\textsuperscript{3} \cite{who2021airquality}, thresholds that are routinely exceeded in major urban centres across the globe.
+
+London, as one of Europe's largest and most densely populated metropolitan areas, faces particularly acute air quality challenges. Despite significant improvements since the era of the Great Smog of 1952, the city continues to exceed both WHO guideline values and legal limits set by the UK government and the European Union. Road transport, domestic heating, construction activities, and industrial emissions collectively contribute to a complex pollution landscape that varies substantially across spatial and temporal scales \cite{beevers2013trends}. The introduction of the Ultra Low Emission Zone (ULEZ) in 2019 and its subsequent expansions reflect the severity of the problem and the political will to address it, yet monitoring data consistently shows that large portions of the city's population remain exposed to harmful pollution levels \cite{walton2015understanding}.
+
+The economic burden of air pollution in London is substantial. A report commissioned by the Greater London Authority estimated that the health costs attributable to PM\textsubscript{2.5} and nitrogen dioxide (NO\textsubscript{2}) exposure in London amount to approximately £3.7 billion annually when accounting for healthcare expenditure, lost productivity, and reduced quality of life \cite{phe2018estimation}. At the national level, the Royal College of Physicians estimated the annual cost of air pollution to the UK economy at £20 billion \cite{rcp2016every}. These figures underscore the economic imperative for effective air quality management strategies, of which accurate forecasting is a critical component.
+
+Accurate prediction of air quality levels enables a range of protective interventions. At the individual level, forecasts allow vulnerable populations to modify their behaviour---remaining indoors during pollution episodes, adjusting medication, or choosing less polluted routes for commuting. At the policy level, reliable predictions support the implementation of emergency measures such as traffic restrictions, industrial curtailment, and public health advisories. Furthermore, forecasting systems contribute to the evaluation of long-term policy interventions by enabling counterfactual analysis and scenario modelling \cite{zhang2012real}.
+
+The advent of machine learning and deep learning techniques has opened new avenues for air quality prediction that complement and often surpass traditional deterministic and statistical approaches. However, the proliferation of methods raises important questions about model selection, interpretability, and practical deployment. There exists a need for comprehensive platforms that not only generate accurate forecasts but also present them in an accessible manner to diverse stakeholders, from public health officials to individual citizens. This thesis addresses that need by developing an urban air quality prediction platform for London, leveraging state-of-the-art machine learning methods and providing an interactive interface for forecast exploration.
+
+\section{Background and Related Work}
+\label{sec:background}
+
+\subsection{Time Series Forecasting: Classical Approaches}
+\label{subsec:classical_ts}
+
+The prediction of air pollutant concentrations is fundamentally a time series forecasting problem. Classical statistical methods for time series analysis have their roots in the seminal work of Box and Jenkins \cite{box1970timeseries}, who formalised the Autoregressive Integrated Moving Average (ARIMA) framework. The ARIMA$(p, d, q)$ model captures temporal dependencies through autoregressive terms (AR), differencing for stationarity (I), and moving average components (MA). Extensions of this framework, including Seasonal ARIMA (SARIMA) and ARIMA with exogenous variables (ARIMAX), have been widely applied to environmental time series where periodic patterns and external forcing factors are present \cite{hyndman2008forecasting}.
+
+The appeal of ARIMA-family models lies in their well-understood theoretical properties, interpretability, and relatively modest data requirements. Hyndman and Khandakar \cite{hyndman2008forecasting} developed automated procedures for ARIMA model selection based on information criteria, making these methods accessible to practitioners without deep expertise in time series econometrics. In the air quality domain, numerous studies have employed ARIMA models for short-term pollutant forecasting. Kumar and Jain \cite{kumar2010arima} applied SARIMA to predict daily PM\textsubscript{10} concentrations in Delhi, achieving reasonable accuracy for one-day-ahead forecasts. Similarly, Díaz-Robles et al. \cite{diaz2008comparison} compared ARIMA with neural network approaches for PM\textsubscript{2.5} prediction in Temuco, Chile.
+
+However, classical time series methods face well-documented limitations when applied to air quality data. The assumption of linearity is frequently violated, as pollutant concentrations exhibit complex nonlinear relationships with meteorological variables and emission sources. Furthermore, ARIMA models struggle to capture long-range dependencies and abrupt regime changes that characterise pollution episodes \cite{freeman2018forecasting}. The stationarity assumption, while addressable through differencing, may not adequately represent the non-stationary dynamics of urban air quality systems influenced by evolving emission patterns and climate variability.
+
+\subsection{Deep Learning Approaches}
+\label{subsec:deep_learning}
+
+The limitations of linear statistical models have motivated the application of deep learning architectures to air quality forecasting. Recurrent Neural Networks (RNNs), designed to process sequential data by maintaining hidden states that encode temporal context, represent a natural choice for time series prediction tasks. However, standard RNNs suffer from the vanishing gradient problem, which limits their ability to learn long-range temporal dependencies \cite{bengio1994learning}.
+
+The Long Short-Term Memory (LSTM) architecture, introduced by Hochreiter and Schmidhuber \cite{hochreiter1997lstm}, addresses this limitation through a gating mechanism that selectively retains or discards information across time steps. The LSTM cell comprises input, forget, and output gates that regulate the flow of information, enabling the network to maintain relevant context over extended sequences. This capability is particularly valuable for air quality prediction, where pollutant concentrations may be influenced by meteorological conditions and emission patterns from hours or days prior.
+
+Numerous studies have demonstrated the effectiveness of LSTM networks for air quality forecasting. Zheng et al. \cite{zheng2015forecasting} developed a deep learning framework for real-time air quality prediction in Chinese cities, incorporating spatial and temporal features through a combination of neural network architectures. Freeman et al. \cite{freeman2018forecasting} applied LSTM networks to forecast PM\textsubscript{2.5} concentrations in London, reporting improvements over persistence and ARIMA baselines. Li et al. \cite{li2017long} employed a stacked LSTM architecture for multi-step-ahead prediction of PM\textsubscript{2.5} in Beijing, demonstrating the model's ability to capture complex temporal patterns during severe pollution episodes.
+
+Variants and extensions of the LSTM architecture have also been explored. Bidirectional LSTMs process sequences in both forward and backward directions, potentially capturing dependencies that unidirectional models miss. Encoder-decoder architectures with attention mechanisms have been applied to multi-step forecasting, allowing the model to selectively attend to relevant historical time steps when generating predictions \cite{qin2017dual}. More recently, Transformer-based architectures \cite{vaswani2017attention}, originally developed for natural language processing, have been adapted for time series forecasting with promising results, though their application to air quality prediction remains an active area of research \cite{liang2023airformer}.
+
+Despite their predictive power, deep learning models present challenges in terms of interpretability, computational requirements, and the need for large training datasets. The ``black box'' nature of neural networks can limit their acceptance by domain experts and policymakers who require understanding of the factors driving predictions. These considerations motivate the exploration of alternative machine learning approaches that may offer competitive accuracy with greater transparency.
+
+\subsection{Tree-Based Ensemble Methods}
+\label{subsec:tree_methods}
+
+Gradient-boosted decision tree ensembles have emerged as powerful alternatives to deep learning for structured tabular data, including environmental time series. XGBoost (eXtreme Gradient Boosting), introduced by Chen and Guestrin \cite{chen2016xgboost}, implements a scalable and regularised gradient boosting framework that has achieved state-of-the-art results across numerous machine learning competitions and applied domains. The algorithm constructs an ensemble of decision trees sequentially, with each tree trained to correct the residual errors of the preceding ensemble, while incorporating L1 and L2 regularisation to prevent overfitting.
+
+Random Forest \cite{breiman2001random}, another prominent ensemble method, constructs multiple decision trees through bootstrap aggregation (bagging) and random feature subsampling. While typically less prone to overfitting than individual decision trees, Random Forests may require larger ensembles to achieve the same predictive accuracy as gradient-boosted methods on complex tasks.
+
+The application of tree-based methods to air quality prediction has yielded competitive results. Castelli et al. \cite{castelli2020machine} compared XGBoost, Random Forest, and neural network approaches for PM\textsubscript{2.5} prediction, finding that XGBoost achieved the best performance in terms of root mean squared error (RMSE) while requiring substantially less training time than deep learning alternatives. Gu et al. \cite{gu2020stacking} proposed a stacking ensemble combining XGBoost with other base learners for air quality index prediction, demonstrating that ensemble diversity improves generalisation.
+
+A significant advantage of tree-based methods is their native support for feature importance analysis. SHAP (SHapley Additive exPlanations) values \cite{lundberg2017unified} provide theoretically grounded attributions of individual predictions to input features, enabling practitioners to understand which meteorological variables, temporal features, or lagged pollutant values drive specific forecasts. This interpretability is valuable for validating model behaviour against domain knowledge and for communicating results to non-technical stakeholders.
+
+\subsection{Existing Air Quality Platforms and Applications}
+\label{subsec:existing_platforms}
+
+Several operational air quality forecasting systems and public-facing platforms exist at various scales. The European Copernicus Atmosphere Monitoring Service (CAMS) provides continental-scale air quality forecasts based on chemical transport models, offering predictions up to five days ahead for major pollutants \cite{marecal2015regional}. In the United Kingdom, the Department for Environment, Food and Rural Affairs (DEFRA) operates the Daily Air Quality Index (DAQI) system, which provides forecasts and health advice based on a combination of numerical weather prediction and statistical post-processing.
+
+At the urban scale, several cities have developed bespoke air quality information systems. The London Air Quality Network (LAQN) provides real-time monitoring data and basic forecasts through its web interface \cite{laqn2024}. Commercial applications such as BreezoMeter, Plume Labs, and IQAir offer hyperlocal air quality information by combining monitoring data with proprietary models. However, these platforms typically do not disclose their methodological details, limiting reproducibility and scientific scrutiny.
+
+Academic contributions to air quality platform development include the work of Zheng et al. \cite{zheng2015forecasting}, who developed U-Air, a system for fine-grained urban air quality inference and prediction in Chinese cities. Their approach combined data from sparse monitoring stations with urban computing techniques to estimate pollution levels at unmonitored locations. Yi et al. \cite{yi2018deep} extended this work with deep learning architectures capable of capturing spatio-temporal correlations across monitoring networks.
+
+\subsection{Positioning of This Work}
+\label{subsec:positioning}
+
+The present thesis distinguishes itself from existing work in several respects. First, it provides a systematic comparison of classical statistical methods (ARIMA), deep learning approaches (LSTM), and tree-based ensemble methods (XGBoost) within a unified experimental framework applied to London air quality data. While individual studies have applied these methods in isolation, comprehensive comparisons using consistent data preprocessing, evaluation metrics, and temporal splits are less common. Second, this work emphasises the development of a complete prediction platform rather than focusing solely on model accuracy. The platform integrates data ingestion, preprocessing, model training, prediction generation, and interactive visualisation into a cohesive system suitable for practical deployment. Third, the thesis addresses the specific characteristics of London's air quality monitoring infrastructure, including data quality challenges, network coverage, and the influence of local meteorological conditions on pollutant dispersion.
+
+\section{Problem Statement}
+\label{sec:problem_statement}
+
+Urban air quality prediction can be formally defined as follows. Let $\mathbf{x}_t = (x_t^{(1)}, x_t^{(2)}, \ldots, x_t^{(n)})$ denote the vector of observed pollutant concentrations and meteorological variables at time step $t$, where $n$ is the number of measured variables. Given a historical observation window $\mathbf{X} = \{\mathbf{x}_{t-w+1}, \mathbf{x}_{t-w+2}, \ldots, \mathbf{x}_t\}$ of length $w$, the forecasting task is to predict the target pollutant concentration $y_{t+h}$ at a future horizon $h$:
+
+\begin{equation}
+\hat{y}_{t+h} = f(\mathbf{X}; \boldsymbol{\theta})
+\label{eq:forecasting}
+\end{equation}
+
+\noindent where $f$ is the learned forecasting function parameterised by $\boldsymbol{\theta}$, and $\hat{y}_{t+h}$ is the predicted PM\textsubscript{2.5} concentration at time $t+h$. The objective is to minimise a loss function $\mathcal{L}(y_{t+h}, \hat{y}_{t+h})$ over a held-out test set, where common choices include mean squared error (MSE) and mean absolute error (MAE).
+
+Despite the extensive literature on air quality forecasting, several gaps persist that this thesis aims to address:
+
+\begin{enumerate}
+    \item \textbf{Lack of unified comparison frameworks.} Studies typically evaluate a single method or a narrow subset of approaches, making it difficult to draw reliable conclusions about relative performance. Differences in data sources, preprocessing pipelines, evaluation periods, and metrics further complicate cross-study comparisons.
+    
+    \item \textbf{Limited focus on deployment.} The majority of academic work prioritises predictive accuracy without addressing the engineering challenges of deploying models as part of an operational system. Issues such as data pipeline reliability, model retraining schedules, and user interface design receive insufficient attention.
+    
+    \item \textbf{Insufficient attention to London-specific challenges.} While London benefits from a dense monitoring network, the data exhibit characteristics---including frequent sensor failures, calibration drift, and complex spatial heterogeneity---that require tailored preprocessing and modelling strategies.
+    
+    \item \textbf{Accessibility gap.} Existing platforms either lack methodological transparency (commercial applications) or lack user-friendly interfaces (academic prototypes). There is a need for systems that combine rigorous methodology with accessible presentation.
+\end{enumerate}
+
+This thesis addresses these gaps by developing a comprehensive urban air quality prediction platform that systematically compares multiple forecasting methodologies, implements robust data processing pipelines tailored to London's monitoring infrastructure, and provides an interactive web-based interface for forecast exploration and model comparison.
+
+\section{Objectives}
+\label{sec:objectives}
+
+The specific objectives of this thesis are as follows:
+
+\begin{enumerate}
+    \item To design and implement a data ingestion and preprocessing pipeline for London Air Quality Network data, incorporating automated quality control, missing value imputation, and feature engineering.
+    
+    \item To implement and evaluate three distinct forecasting approaches---ARIMA, LSTM, and XGBoost---for multi-horizon PM\textsubscript{2.5} prediction at London monitoring stations.
+    
+    \item To conduct a rigorous comparative analysis of model performance using appropriate evaluation metrics, statistical significance tests, and analysis of failure modes.
+    
+    \item To develop an interactive web-based platform that integrates the trained models and provides real-time and forecast air quality information to end users.
+    
+    \item To analyse feature importance and model interpretability, identifying the key drivers of PM\textsubscript{2.5} variability in London and assessing the physical plausibility of learned relationships.
+    
+    \item To evaluate the complete system in terms of prediction accuracy, computational efficiency, and usability, identifying limitations and directions for future improvement.
+\end{enumerate}
+
+\section{Dataset Description}
+\label{sec:dataset}
+
+\subsection{The London Air Quality Network}
+\label{subsec:laqn}
+
+The primary data source for this thesis is the London Air Quality Network (LAQN), a comprehensive monitoring infrastructure operated by the Environmental Research Group at Imperial College London \cite{laqn2024}. Established in 1993, the LAQN comprises over 100 active monitoring sites distributed across Greater London's 33 boroughs, making it one of the densest urban air quality monitoring networks in Europe. The network serves multiple purposes: regulatory compliance assessment, public information provision, epidemiological research support, and policy evaluation.
+
+Monitoring sites within the LAQN are classified according to their proximity to emission sources and the population they represent. \textit{Background} sites are located away from direct emission sources and represent the general urban pollution level experienced by the majority of the population. \textit{Roadside} sites are positioned within 1--5 metres of busy roads and capture the elevated concentrations associated with traffic emissions. \textit{Kerbside} sites are located at the edge of the road and measure the highest concentrations to which pedestrians and cyclists may be exposed. This classification is important for model development, as the temporal dynamics and predictor relationships differ substantially between site types.
+
+\subsection{Measured Variables}
+\label{subsec:variables}
+
+The LAQN monitors a comprehensive suite of pollutants and meteorological parameters. The pollutant measurements relevant to this thesis include:
+
+\begin{itemize}
+    \item \textbf{PM\textsubscript{2.5}} --- Particulate matter with aerodynamic diameter $<$ 2.5~$\mu$m, measured in $\mu$g/m\textsuperscript{3}. This is the primary prediction target. Measurements are obtained using Tapered Element Oscillating Microbalance (TEOM) or Filter Dynamics Measurement System (FDMS) instruments, with Beta Attenuation Monitors (BAM) deployed at some sites.
+    
+    \item \textbf{PM\textsubscript{10}} --- Particulate matter with aerodynamic diameter $<$ 10~$\mu$m, measured in $\mu$g/m\textsuperscript{3}. Serves as a predictor variable due to its correlation with PM\textsubscript{2.5}.
+    
+    \item \textbf{NO\textsubscript{2}} --- Nitrogen dioxide, measured in $\mu$g/m\textsuperscript{3}. A key traffic-related pollutant that shares emission sources with PM\textsubscript{2.5}.
+    
+    \item \textbf{O\textsubscript{3}} --- Ozone, measured in $\mu$g/m\textsuperscript{3}. Exhibits an inverse relationship with NO\textsubscript{x} in urban environments due to titration chemistry.
+\end{itemize}
+
+Meteorological variables, obtained from co-located weather stations or nearby Met Office observations, include temperature, relative humidity, wind speed, wind direction, atmospheric pressure, and precipitation. These variables are critical predictors of pollutant concentrations, as they govern atmospheric dispersion, chemical transformation, and deposition processes.
+
+\subsection{Temporal Coverage and Resolution}
+\label{subsec:temporal}
+
+The dataset used in this thesis spans the period from January 2015 to December 2023, providing nine years of observations that capture both long-term trends and inter-annual variability. Data are available at hourly temporal resolution, yielding approximately 78,840 potential observations per variable per site over the study period. For modelling purposes, both hourly and daily aggregated time series are considered, with the choice of temporal resolution depending on the forecasting horizon and application requirements.
+
+The study period encompasses several events of relevance to air quality modelling, including the introduction and expansion of the ULEZ (April 2019, October 2021), the COVID-19 pandemic lockdowns (March--June 2020, January--March 2021), and various meteorological extremes including heatwaves and Saharan dust episodes. These events introduce non-stationarity and distributional shifts that challenge forecasting models and provide opportunities to assess model robustness.
+
+\subsection{Data Quality Considerations}
+\label{subsec:data_quality}
+
+Raw monitoring data from the LAQN exhibit several quality issues that necessitate careful preprocessing:
+
+\begin{itemize}
+    \item \textbf{Missing data.} Instrument failures, calibration periods, and communication outages result in gaps ranging from isolated hourly values to extended periods of weeks or months. The data capture rate varies by site and pollutant, with typical annual capture rates ranging from 75\% to 95\% for well-maintained sites.
+    
+    \item \textbf{Calibration artefacts.} Periodic instrument calibration can introduce step changes or brief periods of anomalous readings. Automatic and manual calibration events are flagged in the raw data but require careful handling during preprocessing.
+    
+    \item \textbf{Negative values.} Some measurement techniques, particularly TEOM instruments, can produce negative concentration values under certain conditions (e.g., volatile particle loss). These physically implausible values require identification and treatment.
+    
+    \item \textbf{Outliers and spikes.} Transient instrument malfunctions, local emission events (e.g., nearby construction or fires), and data transmission errors can produce extreme values that do not represent ambient conditions.
+    
+    \item \textbf{Measurement method changes.} Over the nine-year study period, some sites have undergone instrument upgrades or changes in measurement methodology, potentially introducing inhomogeneities in the time series.
+\end{itemize}
+
+The data preprocessing pipeline developed in this thesis (described in Chapter~\ref{ch:methods}) addresses these issues through a combination of automated quality flags, statistical outlier detection, interpolation for short gaps, and exclusion criteria for extended missing periods. The impact of preprocessing choices on model performance is assessed through sensitivity analysis.
+
+\section{Thesis Structure}
+\label{sec:structure}
+
+The remainder of this thesis is organised as follows:
+
+\begin{itemize}
+    \item \textbf{Chapter~\ref{ch:methods}} presents the methodology, including detailed descriptions of the data preprocessing pipeline, feature engineering procedures, and the three forecasting models (ARIMA, LSTM, XGBoost). Hyperparameter tuning strategies and evaluation metrics are also discussed.
+    
+    \item \textbf{Chapter~\ref{ch:implementation}} describes the system architecture and implementation of the prediction platform, including the technology stack, data flow, model serving infrastructure, and web interface design.
+    
+    \item \textbf{Chapter~\ref{ch:results}} presents the experimental results, including model comparison across multiple forecasting horizons, feature importance analysis, and case studies of prediction performance during notable air quality events.
+    
+    \item \textbf{Chapter~\ref{ch:conclusion}} summarises the findings, discusses limitations, and outlines directions for future work including spatial modelling extensions, additional pollutant targets, and real-time deployment considerations.
+\end{itemize}

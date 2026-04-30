@@ -6,9 +6,9 @@ import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
 
 import streamlit as st
 
-from app import charts as ch
-from app import page_dashboard as pdash
-from app.ui import configure_authenticated_workspace_page, hero_title
+from front_end import charts as ch
+from back_end import page_dashboard as pdash
+from front_end.ui import configure_authenticated_workspace_page, hero_title
 
 configure_authenticated_workspace_page(page_title="Dashboard · Urban air quality")
 hero_title("Dashboard", "Current air-quality state and recent pollutant trends.")

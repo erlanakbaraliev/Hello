@@ -7,11 +7,11 @@ import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
 import pandas as pd
 import streamlit as st
 
-from app import charts as ch
-from app import forecasting as fc
-from app import page_predict as pp
-from app.ui import configure_authenticated_workspace_page, current_user_id, hero_title
-from database import get_user_settings, save_prediction
+from front_end import charts as ch
+from back_end import forecasting as fc
+from back_end import page_predict as pp
+from front_end.ui import configure_authenticated_workspace_page, current_user_id, hero_title
+from db import get_user_settings, save_prediction
 
 configure_authenticated_workspace_page(page_title="Predict · Urban air quality")
 

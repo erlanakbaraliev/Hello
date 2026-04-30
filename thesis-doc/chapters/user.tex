@@ -1,0 +1,443 @@
+\chapter{User Documentation}
+\label{ch:user}
+
+This chapter provides comprehensive documentation for end users of the Urban Air Quality Forecasting application. The application is built as a multi-page Streamlit web application that enables users to explore air quality data, generate forecasts using machine learning models, and monitor urban air pollution trends through interactive dashboards.
+
+\section{System Requirements}
+\label{sec:user-requirements}
+
+\subsection{Hardware Requirements}
+
+\begin{table}[htbp]
+\centering
+\caption{Minimum and recommended hardware specifications}
+\label{tab:hardware-requirements}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Component} & \textbf{Minimum} & \textbf{Recommended} \\
+\hline
+Processor & Dual-core 2.0 GHz & Quad-core 3.0 GHz+ \\
+\hline
+RAM & 4 GB & 8 GB+ \\
+\hline
+Storage & 2 GB free space & 5 GB+ free space \\
+\hline
+Network & Broadband connection & Stable broadband (10 Mbps+) \\
+\hline
+GPU & Not required & CUDA-compatible (for training) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Software Requirements}
+
+\begin{itemize}
+    \item \textbf{Operating System:} Windows 10/11, macOS 12+, or Ubuntu 20.04+
+    \item \textbf{Python:} Version 3.9 or higher (3.11 recommended)
+    \item \textbf{pip:} Version 21.0 or higher
+    \item \textbf{Git:} Version 2.30+ (for cloning the repository)
+    \item \textbf{Database:} SQLite 3.35+ (bundled with Python) or PostgreSQL 13+ (optional, for production)
+\end{itemize}
+
+\subsection{Browser Requirements}
+
+The application is tested and supported on the following browsers:
+
+\begin{itemize}
+    \item Google Chrome 90+ (recommended)
+    \item Mozilla Firefox 88+
+    \item Microsoft Edge 90+
+    \item Safari 14+
+\end{itemize}
+
+\noindent JavaScript must be enabled, and a minimum viewport width of 1024 pixels is recommended for optimal dashboard rendering. The application is responsive but designed primarily for desktop use.
+
+\section{Installation and Configuration}
+\label{sec:user-installation}
+
+\subsection{Cloning the Repository}
+
+Begin by cloning the project repository to your local machine:
+
+
+\subsection{Setting Up the Virtual Environment}
+
+It is strongly recommended to use a Python virtual environment to isolate project dependencies from the system Python installation.
+
+\subsubsection{On Linux/macOS}
+
+
+\subsubsection{On Windows}
+
+
+\subsection{Installing Dependencies}
+
+The project uses a \texttt{requirements.txt} file to manage all Python dependencies:
+
+
+\noindent The key dependencies include:
+
+\begin{table}[htbp]
+\centering
+\caption{Core project dependencies}
+\label{tab:dependencies}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Package} & \textbf{Version} & \textbf{Purpose} \\
+\hline
+streamlit & $\geq$ 1.28.0 & Web application framework \\
+\hline
+pandas & $\geq$ 2.0.0 & Data manipulation \\
+\hline
+scikit-learn & $\geq$ 1.3.0 & Machine learning models \\
+\hline
+xgboost & $\geq$ 2.0.0 & Gradient boosting models \\
+\hline
+plotly & $\geq$ 5.17.0 & Interactive visualizations \\
+\hline
+google-generativeai & $\geq$ 0.3.0 & Gemini API integration \\
+\hline
+bcrypt & $\geq$ 4.0.0 & Password hashing \\
+\hline
+streamlit-option-menu & $\geq$ 0.3.6 & Navigation components \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Configuring Secrets}
+
+Streamlit uses a secrets management system via the \texttt{.streamlit/secrets.toml} file. Create this file in the project root:
+
+
+\noindent Populate the secrets file with the required configuration:
+
+
+\noindent\textbf{Important:} Never commit the \texttt{secrets.toml} file to version control. Ensure it is listed in your \texttt{.gitignore} file.
+
+\subsection{Database Initialization}
+
+The application automatically initializes the SQLite database on first run. However, you can manually trigger initialization:
+
+
+\noindent This creates the necessary tables for user accounts, prediction history, and application settings.
+
+\subsection{Model Training}
+
+Before generating predictions, the machine learning models must be trained on historical air quality data. The training pipeline supports multiple model architectures:
+
+
+\noindent Upon successful training, model artifacts are saved to the \texttt{models/} directory as serialized \texttt{.pkl} files. Training metrics (RMSE, MAE, R\textsuperscript{2}) are logged to the console and saved to \texttt{models/training\_report.json}.
+
+\subsection{Running the Application}
+
+Launch the application using the Streamlit CLI:
+
+\begin{verbatim}
+streamlit run front_end/Home.py
+\end{verbatim}
+
+\noindent The application will be accessible at \texttt{http://localhost:8501}. On first launch, Streamlit may ask permission to collect usage statistics---this is optional and can be declined.
+
+\subsection{Production Deployment Considerations}
+
+For production environments, additional configuration is recommended:
+
+
+
+\section{Authentication System}
+\label{sec:user-auth}
+
+The application implements a comprehensive authentication system to protect user data and personalize the forecasting experience. All passwords are hashed using the bcrypt algorithm before storage, ensuring that plaintext credentials are never persisted.
+
+\subsection{Registration Flow}
+
+New users can create an account through the registration form accessible from the login page. The registration process follows these steps:
+
+\begin{enumerate}
+    \item Navigate to the application URL and click \textbf{``Create Account''} on the login page.
+    \item Fill in the required fields:
+    \begin{itemize}
+        \item \textbf{Username:} 3--20 characters, alphanumeric and underscores only
+        \item \textbf{Email:} Valid email format (used for account recovery)
+        \item \textbf{Full Name:} Display name shown in the application
+        \item \textbf{Password:} Must meet complexity requirements (see below)
+        \item \textbf{Confirm Password:} Must match the password field exactly
+    \end{itemize}
+    \item Click \textbf{``Register''} to submit the form.
+    \item Upon successful registration, the user is redirected to the login page with a confirmation message.
+\end{enumerate}
+
+\subsection{Password Requirements}
+
+The application enforces the following password policy:
+
+\begin{table}[htbp]
+\centering
+\caption{Password complexity requirements}
+\label{tab:password-policy}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Requirement} & \textbf{Details} \\
+\hline
+Minimum length & 8 characters \\
+\hline
+Maximum length & 128 characters \\
+\hline
+Uppercase letters & At least 1 required \\
+\hline
+Lowercase letters & At least 1 required \\
+\hline
+Numeric digits & At least 1 required \\
+\hline
+Special characters & At least 1 required (!@\#\$\%\^{}\&*) \\
+\hline
+Common passwords & Rejected (checked against blocklist) \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent A real-time password strength indicator provides visual feedback during registration, displaying strength levels from ``Weak'' (red) through ``Fair'' (orange) to ``Strong'' (green).
+
+\subsection{Login Process}
+
+Returning users authenticate through the login form:
+
+\begin{enumerate}
+    \item Enter the registered username or email address.
+    \item Enter the account password.
+    \item Optionally check \textbf{``Remember me''} to extend session duration.
+    \item Click \textbf{``Login''} to authenticate.
+\end{enumerate}
+
+\noindent Upon successful authentication, the user is redirected to the Home page and the navigation sidebar becomes fully accessible.
+
+\subsection{Session Persistence}
+
+The application manages user sessions through Streamlit's session state mechanism:
+
+\begin{itemize}
+    \item \textbf{Default session:} Expires after 30 minutes of inactivity.
+    \item \textbf{``Remember me'' session:} Persists for 7 days via a browser cookie.
+    \item \textbf{Manual logout:} Users can explicitly end their session via the sidebar logout button.
+    \item \textbf{Session tokens:} Cryptographically generated tokens are stored server-side and validated on each request.
+\end{itemize}
+
+\subsection{Account Lockout Mechanism}
+
+To prevent brute-force attacks, the application implements progressive account lockout:
+
+\begin{enumerate}
+    \item After \textbf{3 failed attempts}: A CAPTCHA challenge is displayed.
+    \item After \textbf{5 failed attempts}: The account is locked for 15 minutes.
+    \item After \textbf{10 failed attempts}: The account is locked for 60 minutes and an email notification is sent (if configured).
+\end{enumerate}
+
+\noindent The lockout counter resets after a successful login. Administrators can manually unlock accounts through the database if needed:
+
+
+\subsection{Password Reset}
+
+Users who forget their password can initiate a reset through the \textbf{``Forgot Password?''} link on the login page. The reset flow generates a time-limited token (valid for 1 hour) and displays it to the user for demonstration purposes. In a production environment, this token would be sent via email.
+
+\section{Home Page}
+\label{sec:user-home}
+
+The Home page serves as the application's landing page and adapts its content based on the user's authentication status.
+
+\subsection{Before Login (Public View)}
+
+Unauthenticated visitors see:
+
+\begin{itemize}
+    \item \textbf{Application title and tagline:} ``Urban Air Quality Forecasting --- Monitor, Analyze, and Predict Air Pollution''
+    \item \textbf{Feature highlights:} A grid of cards summarizing key capabilities (data exploration, ML predictions, real-time dashboard, history tracking)
+    \item \textbf{Quick statistics:} Aggregate metrics such as total predictions made, active users, and supported pollutants
+    \item \textbf{Call-to-action buttons:} Prominent ``Login'' and ``Register'' buttons directing users to the authentication page
+    \item \textbf{Technology stack:} Brief overview of the technologies powering the application
+\end{itemize}
+
+\subsection{After Login (Authenticated View)}
+
+Authenticated users see a personalized dashboard summary:
+
+\begin{itemize}
+    \item \textbf{Welcome message:} Personalized greeting with the user's display name and last login timestamp
+    \item \textbf{Activity summary cards:} Number of predictions made, datasets uploaded, and days since registration
+    \item \textbf{Recent predictions:} A compact table showing the last 5 predictions with timestamps and model types
+    \item \textbf{Quick navigation:} Large icon buttons providing one-click access to each application module
+    \item \textbf{Air quality tip of the day:} Rotating educational content about air pollution and health impacts
+    \item \textbf{System announcements:} Any active notifications from administrators (e.g., scheduled maintenance)
+\end{itemize}
+
+\noindent The Home page layout uses Streamlit's column system to create a responsive grid that adapts to different screen sizes. Key metrics are displayed using \texttt{st.metric()} components with delta indicators showing changes from the previous period.
+
+
+\section{Data Explorer}
+\label{sec:user-explorer}
+
+The Data Explorer module provides tools for uploading, visualizing, and statistically analyzing air quality datasets. It is designed to help users understand their data before proceeding to the prediction module.
+
+\subsection{Data Upload Process}
+
+Users can upload datasets through the file uploader widget:
+
+\begin{enumerate}
+    \item Navigate to the \textbf{``Data Explorer''} page from the sidebar.
+    \item Click the \textbf{``Browse files''} button or drag and drop a file into the upload area.
+    \item The application validates the file format and displays a preview of the first 10 rows.
+    \item If validation succeeds, the full dataset is loaded into memory for analysis.
+\end{enumerate}
+
+\subsection{Supported File Formats}
+
+\begin{table}[htbp]
+\centering
+\caption{Supported data file formats}
+\label{tab:file-formats}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Format} & \textbf{Extension} & \textbf{Max Size} & \textbf{Notes} \\
+\hline
+CSV & .csv & 50 MB & Comma, semicolon, or tab delimited \\
+\hline
+Excel & .xlsx, .xls & 50 MB & First sheet read by default \\
+\hline
+JSON & .json & 50 MB & Records or columnar orientation \\
+\hline
+Parquet & .parquet & 100 MB & Recommended for large datasets \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent The application automatically detects the delimiter for CSV files and handles common encoding issues (UTF-8, Latin-1). Column names are normalized by stripping whitespace and converting to lowercase for consistency.
+
+\subsection{Correlation Heatmap}
+
+The correlation heatmap visualizes pairwise Pearson correlation coefficients between all numeric columns in the dataset:
+
+\begin{itemize}
+    \item \textbf{Color scale:} Diverging color map from blue ($-1$) through white ($0$) to red ($+1$).
+    \item \textbf{Annotations:} Each cell displays the correlation coefficient rounded to two decimal places.
+    \item \textbf{Interactivity:} Hovering over a cell shows the exact value and the two correlated variables.
+    \item \textbf{Filtering:} Users can select a subset of columns to include in the heatmap via a multiselect widget.
+    \item \textbf{Threshold highlighting:} An optional slider allows users to highlight only correlations above a specified absolute threshold.
+\end{itemize}
+
+\noindent The heatmap is rendered using Plotly, enabling zoom, pan, and export to PNG. This visualization is particularly useful for identifying multicollinearity between pollutant measurements and meteorological variables.
+
+\subsection{Histogram Analysis}
+
+The histogram module allows users to explore the distribution of individual variables:
+
+\begin{itemize}
+    \item \textbf{Column selection:} A dropdown menu lists all numeric columns available for plotting.
+    \item \textbf{Bin count:} Adjustable slider (10--100 bins) to control histogram granularity.
+    \item \textbf{Distribution overlay:} Optional kernel density estimation (KDE) curve overlaid on the histogram.
+    \item \textbf{Normalization:} Toggle between raw counts and probability density.
+    \item \textbf{Group by:} Optional categorical column for creating grouped/stacked histograms.
+    \item \textbf{Log scale:} Toggle for logarithmic y-axis, useful for skewed distributions.
+\end{itemize}
+
+\noindent Users can generate histograms for multiple columns simultaneously using the ``Plot All'' button, which creates a grid of subplots for quick visual comparison.
+
+\subsection{Statistical Summary}
+
+The statistical summary panel provides comprehensive descriptive statistics:
+
+\begin{table}[htbp]
+\centering
+\caption{Statistical metrics computed for each numeric column}
+\label{tab:stats-summary}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Metric} & \textbf{Description} \\
+\hline
+Count & Number of non-null values \\
+\hline
+Mean & Arithmetic mean \\
+\hline
+Std & Standard deviation \\
+\hline
+Min / Max & Minimum and maximum values \\
+\hline
+25\% / 50\% / 75\% & Quartile values \\
+\hline
+Skewness & Measure of distribution asymmetry \\
+\hline
+Kurtosis & Measure of distribution tail heaviness \\
+\hline
+Missing (\%) & Percentage of null/NaN values \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent The summary is displayed as an interactive dataframe with sortable columns. Users can download the statistical summary as a CSV file using the \textbf{``Download Summary''} button.
+
+\subsection{Additional Explorer Features}
+
+\begin{itemize}
+    \item \textbf{Data type detection:} Automatic identification of datetime, numeric, and categorical columns with suggested type conversions.
+    \item \textbf{Missing value visualization:} A bar chart showing the percentage of missing values per column, with options to view the missingness pattern matrix.
+    \item \textbf{Scatter plot matrix:} Pairwise scatter plots for selected variables with optional color coding by a categorical variable.
+    \item \textbf{Time series plot:} If a datetime column is detected, users can plot any numeric variable over time with resampling options (hourly, daily, weekly, monthly).
+    \item \textbf{Outlier detection:} IQR-based outlier flagging with visual indicators on box plots.
+\end{itemize}
+
+
+\section{Predict Future Quality}
+\label{sec:user-predict}
+
+The Predict Future Quality module is the core forecasting engine of the application. It allows users to upload new air quality measurements and generate predictions using pre-trained machine learning models.
+
+\subsection{Upload Schema Requirements}
+
+The prediction module requires input data to conform to a specific schema. The uploaded CSV file must contain the following columns:
+
+\begin{table}[htbp]
+\centering
+\caption{Required columns for prediction input}
+\label{tab:predict-schema}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Column Name} & \textbf{Type} & \textbf{Unit} & \textbf{Required} \\
+\hline
+datetime & datetime & ISO 8601 & Yes \\
+\hline
+pm25 & float & $\mu g/m^3$ & Yes \\
+\hline
+pm10 & float & $\mu g/m^3$ & Yes \\
+\hline
+no2 & float & ppb & Yes \\
+\hline
+so2 & float & ppb & Conditional \\
+\hline
+co & float & ppm & Conditional \\
+\hline
+o3 & float & ppb & Conditional \\
+\hline
+temperature & float & \textdegree C & Recommended \\
+\hline
+humidity & float & \% & Recommended \\
+\hline
+wind\_speed & float & m/s & Recommended \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent Columns marked ``Conditional'' are required depending on the selected prediction target. Columns marked ``Recommended'' improve prediction accuracy but are not strictly required---the model will use default imputation strategies for missing meteorological features.
+
+\subsection{Schema Validation}
+
+Upon upload, the application performs comprehensive validation:
+
+\begin{enumerate}
+    \item \textbf{Column presence check:} Verifies all required columns exist (case-insensitive matching).
+    \item \textbf{Data type validation:} Ensures numeric columns contain parseable values.
+    \item \textbf{Range validation:} Flags physically impossible values (e.g., negative concentrations, humidity $> 100\%$).
+    \item \textbf{Temporal ordering:} Checks that datetime values are monotonically increasing.
+    \item \textbf{Minimum row count:} Requires at least 24 rows (representing 24 hours of data) for meaningful predictions.
+\end{enumerate}
+
+\noindent Validation errors are displayed as an itemized list with specific row/column references, enabling users to quickly identify and correct issues in their data.
+
+\subsection{Model Selection}

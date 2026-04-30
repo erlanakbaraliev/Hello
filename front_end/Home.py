@@ -6,8 +6,8 @@ import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
 
 import streamlit as st
 
-from app.logging_utils import setup_logging
-from app.ui import (
+from front_end.logging_utils import setup_logging
+from front_end.ui import (
     configure_public_shell,
     hero_title,
     persist_session,
@@ -17,7 +17,7 @@ from app.ui import (
     render_signed_in_sidebar_account,
     restore_session,
 )
-from database import AccountLockedError, add_user, init_db, verify_user
+from db import AccountLockedError, add_user, init_db, verify_user
 
 setup_logging()
 configure_public_shell(page_title="Home · Urban air quality")

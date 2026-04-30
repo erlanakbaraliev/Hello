@@ -11,8 +11,8 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from app import charts as ch
-from app.ui import configure_authenticated_workspace_page, empty_state, hero_title
+from front_end import charts as ch
+from front_end.ui import configure_authenticated_workspace_page, empty_state, hero_title
 
 configure_authenticated_workspace_page(page_title="Data Explorer · Urban air quality")
 

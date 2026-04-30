@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import streamlit as st
 
-from database import (
+from db import (
     append_chat_message,
     create_chat_session,
     delete_chat_session,
     get_chat_messages,
     list_chat_sessions,
 )
-from helpdesk_gemini import (
+from back_end.helpdesk_gemini import (
     GeminiClientError,
     generate_helpdesk_reply,
     sanitize_user_text,

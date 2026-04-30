@@ -1,0 +1,106 @@
+\select@language {english} \contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\select@language {english} \contentsline {section}{\numberline {1.1}Motivation}{4}{section.1.1}%
+\select@language {english} \contentsline {section}{\numberline {1.2}Background and Related Work}{6}{section.1.2}%
+\select@language {english} \contentsline {subsection}{\numberline {1.2.1}Time Series Forecasting: Classical Approaches}{6}{subsection.1.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {1.2.2}Deep Learning Approaches}{7}{subsection.1.2.2}%
+\select@language {english} \contentsline {subsection}{\numberline {1.2.3}Tree-Based Ensemble Methods}{8}{subsection.1.2.3}%
+\select@language {english} \contentsline {subsection}{\numberline {1.2.4}Existing Air Quality Platforms and Applications}{9}{subsection.1.2.4}%
+\select@language {english} \contentsline {subsection}{\numberline {1.2.5}Positioning of This Work}{10}{subsection.1.2.5}%
+\select@language {english} \contentsline {section}{\numberline {1.3}Problem Statement}{10}{section.1.3}%
+\select@language {english} \contentsline {section}{\numberline {1.4}Objectives}{11}{section.1.4}%
+\select@language {english} \contentsline {section}{\numberline {1.5}Dataset Description}{12}{section.1.5}%
+\select@language {english} \contentsline {subsection}{\numberline {1.5.1}The London Air Quality Network}{12}{subsection.1.5.1}%
+\select@language {english} \contentsline {subsection}{\numberline {1.5.2}Measured Variables}{13}{subsection.1.5.2}%
+\select@language {english} \contentsline {subsection}{\numberline {1.5.3}Temporal Coverage and Resolution}{13}{subsection.1.5.3}%
+\select@language {english} \contentsline {subsection}{\numberline {1.5.4}Data Quality Considerations}{14}{subsection.1.5.4}%
+\select@language {english} \contentsline {section}{\numberline {1.6}Thesis Structure}{15}{section.1.6}%
+\select@language {english} \contentsline {chapter}{\numberline {2}User Documentation}{16}{chapter.2}%
+\select@language {english} \contentsline {section}{\numberline {2.1}System Requirements}{16}{section.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.1.1}Hardware Requirements}{16}{subsection.2.1.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.1.2}Software Requirements}{16}{subsection.2.1.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.1.3}Browser Requirements}{17}{subsection.2.1.3}%
+\select@language {english} \contentsline {section}{\numberline {2.2}Installation and Configuration}{17}{section.2.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.1}Cloning the Repository}{17}{subsection.2.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.2}Setting Up the Virtual Environment}{17}{subsection.2.2.2}%
+\select@language {english} \contentsline {subsubsection}{On Linux/macOS}{17}{section*.2}%
+\select@language {english} \contentsline {subsubsection}{On Windows}{17}{section*.3}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.3}Installing Dependencies}{17}{subsection.2.2.3}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.4}Configuring Secrets}{18}{subsection.2.2.4}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.5}Database Initialization}{18}{subsection.2.2.5}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.6}Model Training}{18}{subsection.2.2.6}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.7}Running the Application}{18}{subsection.2.2.7}%
+\select@language {english} \contentsline {subsection}{\numberline {2.2.8}Production Deployment Considerations}{19}{subsection.2.2.8}%
+\select@language {english} \contentsline {section}{\numberline {2.3}Authentication System}{19}{section.2.3}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.1}Registration Flow}{19}{subsection.2.3.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.2}Password Requirements}{20}{subsection.2.3.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.3}Login Process}{20}{subsection.2.3.3}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.4}Session Persistence}{20}{subsection.2.3.4}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.5}Account Lockout Mechanism}{21}{subsection.2.3.5}%
+\select@language {english} \contentsline {subsection}{\numberline {2.3.6}Password Reset}{21}{subsection.2.3.6}%
+\select@language {english} \contentsline {section}{\numberline {2.4}Home Page}{21}{section.2.4}%
+\select@language {english} \contentsline {subsection}{\numberline {2.4.1}Before Login (Public View)}{21}{subsection.2.4.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.4.2}After Login (Authenticated View)}{22}{subsection.2.4.2}%
+\select@language {english} \contentsline {section}{\numberline {2.5}Data Explorer}{23}{section.2.5}%
+\select@language {english} \contentsline {subsection}{\numberline {2.5.1}Data Upload Process}{23}{subsection.2.5.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.5.2}Supported File Formats}{23}{subsection.2.5.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.5.3}Correlation Heatmap}{23}{subsection.2.5.3}%
+\select@language {english} \contentsline {subsection}{\numberline {2.5.4}Histogram Analysis}{24}{subsection.2.5.4}%
+\select@language {english} \contentsline {subsection}{\numberline {2.5.5}Statistical Summary}{25}{subsection.2.5.5}%
+\select@language {english} \contentsline {subsection}{\numberline {2.5.6}Additional Explorer Features}{25}{subsection.2.5.6}%
+\select@language {english} \contentsline {section}{\numberline {2.6}Predict Future Quality}{25}{section.2.6}%
+\select@language {english} \contentsline {subsection}{\numberline {2.6.1}Upload Schema Requirements}{26}{subsection.2.6.1}%
+\select@language {english} \contentsline {subsection}{\numberline {2.6.2}Schema Validation}{26}{subsection.2.6.2}%
+\select@language {english} \contentsline {subsection}{\numberline {2.6.3}Model Selection}{27}{subsection.2.6.3}%
+\select@language {english} \contentsline {chapter}{\numberline {3}Developer Documentation}{28}{chapter.3}%
+\select@language {english} \contentsline {section}{\numberline {3.1}Architecture Overview}{28}{section.3.1}%
+\select@language {english} \contentsline {subsection}{\numberline {3.1.1}Layered Architecture}{28}{subsection.3.1.1}%
+\select@language {english} \contentsline {subsection}{\numberline {3.1.2}Component Interaction Diagram}{29}{subsection.3.1.2}%
+\select@language {english} \contentsline {subsection}{\numberline {3.1.3}Data Flow}{30}{subsection.3.1.3}%
+\select@language {english} \contentsline {subsection}{\numberline {3.1.4}Module Organization}{30}{subsection.3.1.4}%
+\select@language {english} \contentsline {section}{\numberline {3.2}Technology Stack}{32}{section.3.2}%
+\select@language {english} \contentsline {subsection}{\numberline {3.2.1}Python Ecosystem}{32}{subsection.3.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {3.2.2}Streamlit Framework Justification}{32}{subsection.3.2.2}%
+\select@language {english} \contentsline {subsection}{\numberline {3.2.3}Key Libraries}{33}{subsection.3.2.3}%
+\select@language {english} \contentsline {section}{\numberline {3.3}Data Processing Pipeline}{33}{section.3.3}%
+\select@language {english} \contentsline {subsection}{\numberline {3.3.1}Data Loading and Schema Validation}{34}{subsection.3.3.1}%
+\select@language {english} \contentsline {subsection}{\numberline {3.3.2}Temporal Indexing}{34}{subsection.3.3.2}%
+\select@language {english} \contentsline {subsection}{\numberline {3.3.3}Missing Value Handling}{34}{subsection.3.3.3}%
+\select@language {english} \contentsline {subsection}{\numberline {3.3.4}Feature Engineering}{35}{subsection.3.3.4}%
+\select@language {english} \contentsline {subsubsection}{ARIMA Features}{35}{section*.11}%
+\select@language {english} \contentsline {subsubsection}{LSTM Features}{35}{section*.12}%
+\select@language {english} \contentsline {subsubsection}{XGBoost Features}{35}{section*.13}%
+\select@language {english} \contentsline {subsection}{\numberline {3.3.5}Normalization}{35}{subsection.3.3.5}%
+\select@language {english} \contentsline {subsection}{\numberline {3.3.6}Train/Test Splitting Strategy}{36}{subsection.3.3.6}%
+\select@language {english} \contentsline {section}{\numberline {3.4}Model Implementations}{36}{section.3.4}%
+\select@language {english} \contentsline {subsection}{\numberline {3.4.1}ARIMA -- AutoRegressive Integrated Moving Average}{36}{subsection.3.4.1}%
+\select@language {english} \contentsline {subsubsection}{Mathematical Formulation}{36}{section*.15}%
+\select@language {english} \contentsline {subsubsection}{Order Selection via Information Criteria}{37}{section*.16}%
+\select@language {english} \contentsline {subsubsection}{Fitting Procedure}{38}{section*.17}%
+\select@language {english} \contentsline {subsubsection}{Forecasting}{38}{section*.18}%
+\select@language {english} \contentsline {subsubsection}{Model Serialization}{38}{section*.19}%
+\select@language {english} \contentsline {subsection}{\numberline {3.4.2}LSTM -- Long Short-Term Memory Network}{38}{subsection.3.4.2}%
+\select@language {english} \contentsline {subsubsection}{Network Architecture}{38}{section*.20}%
+\select@language {english} \contentsline {chapter}{\numberline {4}Conclusion}{40}{chapter.4}%
+\select@language {english} \contentsline {section}{\numberline {4.1}Summary of Contributions}{40}{section.4.1}%
+\select@language {english} \contentsline {paragraph}{System Design and Implementation.}{40}{section*.21}%
+\select@language {english} \contentsline {paragraph}{Multi-Model Comparative Framework.}{41}{section*.22}%
+\select@language {english} \contentsline {paragraph}{Feature Engineering for Air Quality Forecasting.}{41}{section*.23}%
+\select@language {english} \contentsline {paragraph}{Extended Forecast Horizon Analysis.}{41}{section*.24}%
+\select@language {english} \contentsline {paragraph}{Fulfillment of Objectives.}{41}{section*.25}%
+\select@language {english} \contentsline {section}{\numberline {4.2}Model Comparison and Results}{42}{section.4.2}%
+\select@language {english} \contentsline {subsection}{\numberline {4.2.1}Quantitative Comparison}{42}{subsection.4.2.1}%
+\select@language {english} \contentsline {subsection}{\numberline {4.2.2}Model-Specific Observations}{42}{subsection.4.2.2}%
+\select@language {english} \contentsline {paragraph}{ARIMA.}{42}{section*.27}%
+\select@language {english} \contentsline {paragraph}{LSTM.}{43}{section*.28}%
+\select@language {english} \contentsline {paragraph}{XGBoost.}{43}{section*.29}%
+\select@language {english} \contentsline {subsection}{\numberline {4.2.3}Key Insights}{43}{subsection.4.2.3}%
+\select@language {english} \contentsline {section}{\numberline {4.3}Limitations}{44}{section.4.3}%
+\select@language {english} \contentsline {section}{\numberline {4.4}Future Work}{46}{section.4.4}%
+\select@language {english} \contentsline {subsection}{\numberline {4.4.1}Ensemble Methods and Model Combination}{46}{subsection.4.4.1}%
+\select@language {english} \contentsline {subsection}{\numberline {4.4.2}Uncertainty Quantification}{46}{subsection.4.4.2}%
+\select@language {english} \contentsline {subsection}{\numberline {4.4.3}Transfer Learning and Multi-City Generalization}{47}{subsection.4.4.3}%
+\select@language {english} \contentsline {subsection}{\numberline {4.4.4}Real-Time Data Ingestion and Operational Deployment}{47}{subsection.4.4.4}%
+\select@language {english} \contentsline {chapter}{Acknowledgements}{48}{chapter*.30}%
+\select@language {english} \contentsline {chapter}{Bibliography}{48}{section*.31}%
+\select@language {english} \contentsline {chapter}{List of Figures}{49}{section*.32}%
+\select@language {english} \contentsline {chapter}{List of Tables}{50}{section*.33}%
