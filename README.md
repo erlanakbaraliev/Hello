@@ -36,10 +36,51 @@ The forecasting pipelines use recent pollutant history, weather inputs, and cale
     │   └── xgboost_pred.py
     ├── db/
     ├── front_end/
+    │   ├── __init__.py
+    │   ├── database.py
+    │   └── air_quality.db
     ├── data/
+    │   ├── __init__.py
+    │   ├── Home.py
+    │   ├── charts.py
+    │   ├── invoke_bootstrap.py
+    │   ├── logging_utils.py
+    │   ├── risk_bands.py
+    │   ├── ui.py
+    │   ├── pages/
+    │   │   ├── Data_Explorer.py
+    │   │   ├── Forecast.py
+    │   │   ├── History.py
+    │   │   └── Settings.py
+    │   └── static/
+    │       ├── favicon.png
+    │       └── theme.css
     ├── experiments/
+    │   └── london_2024.csv
     └── tests/
+    │   ├── data/
+    │   │   └── london_2024.csv
+    │   ├── forecasting/
+    │   │   └── notebooks/
+    │   │       ├── lstm_forecast.py
+    │   │       ├── lstm_full_training.py
+    │   │       ├── lstm_training.py
+    │   │       ├── xgboost_forecast.py
+    │   │       ├── xgboost_full_training.py
+    │   │       ├── xgboost_training.py
+    │   │       └── *_doc_*.png
+    │   └── models/
+    │       ├── lstm_multivariate_forecast_bundle.zip
+    │       ├── xgboost_multivariate_forecast_bundle.zip
+    │       └── full_models/
+    │           ├── lstm_multivariate_full_forecast_bundle.zip
+    │           └── xgboost_multivariate_full_forecast_bundle.zip
 ```
+```
+
+### Folder Purposes
+
+| Path | Purpose |
 
 ### Folder Purposes
 
