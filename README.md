@@ -26,8 +26,6 @@ The forecasting pipelines use recent pollutant history, weather inputs, and cale
 ├── pyproject.toml
 ├── run_tests.py
 ├── .github/
-│   └── workflows/
-│       └── ci.yml
 └── src/
     ├── back_end/
     │   ├── __init__.py
@@ -38,51 +36,10 @@ The forecasting pipelines use recent pollutant history, weather inputs, and cale
     │   ├── upload_preprocess.py
     │   └── xgboost_pred.py
     ├── db/
-    │   ├── __init__.py
-    │   ├── database.py
-    │   └── air_quality.db
     ├── front_end/
-    │   ├── __init__.py
-    │   ├── Home.py
-    │   ├── charts.py
-    │   ├── invoke_bootstrap.py
-    │   ├── logging_utils.py
-    │   ├── risk_bands.py
-    │   ├── ui.py
-    │   ├── pages/
-    │   │   ├── Data_Explorer.py
-    │   │   ├── Forecast.py
-    │   │   ├── History.py
-    │   │   └── Settings.py
-    │   └── static/
-    │       ├── favicon.png
-    │       └── theme.css
     ├── data/
-    │   └── london_2024.csv
     ├── experiments/
-    │   ├── data/
-    │   │   └── london_2024.csv
-    │   ├── forecasting/
-    │   │   └── notebooks/
-    │   │       ├── lstm_forecast.py
-    │   │       ├── lstm_full_training.py
-    │   │       ├── lstm_training.py
-    │   │       ├── xgboost_forecast.py
-    │   │       ├── xgboost_full_training.py
-    │   │       ├── xgboost_training.py
-    │   │       └── *_doc_*.png
-    │   └── models/
-    │       ├── lstm_multivariate_forecast_bundle.zip
-    │       ├── xgboost_multivariate_forecast_bundle.zip
-    │       └── full_models/
-    │           ├── lstm_multivariate_full_forecast_bundle.zip
-    │           └── xgboost_multivariate_full_forecast_bundle.zip
     └── tests/
-        ├── conftest.py
-        ├── test_data_processing.py
-        ├── test_database.py
-        ├── test_upload_forecast.py
-        └── test_upload_forecast_extras.py
 ```
 
 ### Folder Purposes

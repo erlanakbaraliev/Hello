@@ -98,6 +98,9 @@ def test_validate_and_prepare_returns_daily_index() -> None:
 
 def test_validate_and_prepare_drops_unparseable_times() -> None:
     df = _make_hourly_frame(n=24)
+    # Cast to object before injecting an invalid timestamp literal to avoid
+    # pandas dtype-assignment FutureWarning in test setup.
+    df["time"] = df["time"].astype("object")
     df.loc[0, "time"] = "not-a-date"
     out = validate_and_prepare(df)
     # Bad row dropped silently.

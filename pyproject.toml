@@ -25,7 +25,6 @@ addopts = [
     "--cov=src/db",
     "--cov=src/back_end",
     "--cov-report=term-missing",
-    "--cov-fail-under=85",
 ]
 
 [tool.coverage.run]

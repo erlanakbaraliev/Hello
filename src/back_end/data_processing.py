@@ -63,7 +63,7 @@ def validate_and_prepare(df: pd.DataFrame) -> pd.DataFrame:
     """Coerce → DatetimeIndex → daily resample with simple gap filling."""
     data = ensure_expected_schema(df)
 
-    data["time"] = pd.to_datetime(data["time"], utc=True, errors="coerce")
+    data["time"] = pd.to_datetime(data["time"], utc=True, errors="coerce", format="mixed")
     data = data.dropna(subset=["time"]).sort_values("time").set_index("time")
 
     numeric_columns = list(POLLUTANT_COLUMNS)
