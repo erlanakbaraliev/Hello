@@ -5,7 +5,7 @@ target-version = ["py311"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-exclude = ["notebooks", "data"]
+exclude = ["notebooks", "src/data", "src/experiments"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B"]
@@ -13,13 +13,36 @@ ignore = ["E501", "B905"]
 
 [tool.ruff.lint.per-file-ignores]
 "app.py" = ["E402"]
-# Streamlit entry scripts run importlib bootstrap before ``from app...`` (see invoke_bootstrap.py).
-"app/Home.py" = ["E402"]
-"app/pages/*" = ["E402"]
+# Streamlit entry scripts run importlib bootstrap before ``from front_end ...`` (see invoke_bootstrap.py).
+"src/front_end/Home.py" = ["E402"]
+"src/front_end/pages/*" = ["E402"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["src/tests"]
 python_files = ["test_*.py"]
+pythonpath = ["src"]
+addopts = [
+    "--cov=src/db",
+    "--cov=src/back_end",
+    "--cov-report=term-missing",
+    "--cov-fail-under=85",
+]
+
+[tool.coverage.run]
+source = ["src/db", "src/back_end"]
+branch = true
+omit = ["src/tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+precision = 1
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
 
 [tool.mypy]
 python_version = "3.11"
@@ -27,4 +50,4 @@ ignore_missing_imports = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 check_untyped_defs = true
-exclude = ["notebooks/"]
+exclude = ["notebooks/", "src/experiments/"]

@@ -33,4 +33,4 @@ jobs:
         run: pytest -q
 
       - name: Mypy
-        run: mypy database.py data_processing.py models.py
+        run: mypy src/db src/back_end

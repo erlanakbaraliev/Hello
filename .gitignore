@@ -21,3 +21,4 @@ models/forecast_outputs/
 # Coverage outputs
 .coverage
 htmlcov/
+coverage_html/
