@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
-
 import streamlit as st
 
-from front_end.ui import configure_authenticated_workspace_page, current_user_id, hero_title
 from db import (
     change_password,
     delete_user_account,
@@ -15,6 +13,7 @@ from db import (
     update_user_profile,
     upsert_user_settings,
 )
+from front_end.ui import configure_authenticated_workspace_page, current_user_id, hero_title
 
 configure_authenticated_workspace_page(page_title="Settings · Air quality")
 hero_title("Settings", "Profile, default forecast model, and security.")

@@ -31,7 +31,6 @@ from back_end.constants import (
 )
 from back_end.upload_preprocess import PreprocessedUpload
 
-
 # ─── Horizon validation ──────────────────────────────────────────────────────
 
 

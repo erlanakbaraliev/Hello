@@ -2,15 +2,19 @@
 
 from __future__ import annotations
 
-import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
+from typing import Any
 
+import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
 import pandas as pd
 import streamlit as st
 
-from typing import Any
-
-from front_end.ui import configure_authenticated_workspace_page, current_user_id, empty_state, hero_title
 from db import delete_history_entry, get_history_filtered
+from front_end.ui import (
+    configure_authenticated_workspace_page,
+    current_user_id,
+    empty_state,
+    hero_title,
+)
 
 configure_authenticated_workspace_page(page_title="History · Air quality")
 hero_title("History", "Review, download, and manage past prediction runs.")

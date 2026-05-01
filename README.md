@@ -58,25 +58,10 @@ The forecasting pipelines use recent pollutant history, weather inputs, and cale
     │       ├── favicon.png
     │       └── theme.css
     ├── data/
-    │   ├── download.py
-    │   ├── london_2024.csv
-    │   ├── new_file.ipynb
-    │   ├── preprocess.ipynb
-    │   ├── globaldata/
-    │   │   └── Global_City_Air_Quality_Hourly.csv
-    │   └── other_datas/
-    │       ├── LaqnData.csv
-    │       ├── LaqnData-3.csv
-    │       ├── london22_25.csv
-    │       ├── london_2025.csv
-    │       └── los_angeles22_25.csv
+    │   └── london_2024.csv
     ├── experiments/
     │   ├── data/
-    │   │   ├── download.py
-    │   │   ├── london_2024.csv
-    │   │   ├── preprocess.ipynb
-    │   │   ├── globaldata/
-    │   │   └── other_datas/
+    │   │   └── london_2024.csv
     │   ├── forecasting/
     │   │   └── notebooks/
     │   │       ├── lstm_forecast.py
@@ -107,7 +92,7 @@ The forecasting pipelines use recent pollutant history, weather inputs, and cale
 | `src/back_end/` | Core data validation, preprocessing, model loading, and recursive inference logic. |
 | `src/front_end/` | Streamlit application pages, shared UI helpers, styling, charts, and PM2.5 risk labels. |
 | `src/db/` | SQLite persistence for accounts, sessions, settings, and prediction history. |
-| `src/data/` | Project datasets, download utilities, and preprocessing notebooks. |
+| `src/data/` | Runtime dataset files used by project code (currently `london_2024.csv`). |
 | `src/experiments/` | Offline training and evaluation scripts, experiment datasets, plots, and model bundles. |
 | `src/tests/` | Pytest suite for backend preprocessing, database behavior, and upload-forecast inference logic. |
 | `app.py` | Root launcher that starts the Streamlit app at `src/front_end/Home.py`. |
@@ -160,25 +145,65 @@ Important research safeguards are present in the experiment code:
 
 ```mermaid
 flowchart LR
-    Frontend["Streamlit frontend"] --> Backend["Backend preprocessing and inference"]
-    Backend --> Models["LSTM and XGBoost models"]
-    Models --> Outputs["Forecast tables, charts, downloads"]
-    Backend <--> Database["SQLite database"]
-    Experiments["Experiment scripts"] --> ModelArtifacts["Model artifacts and bundles"]
-    ModelArtifacts --> Backend
+    subgraph frontendLayer [Frontend Layer]
+        HomePage["Home.py (entry and auth)"]
+        WorkspacePages["pages: Data_Explorer, Forecast, History, Settings"]
+        UIHelpers["ui.py, charts.py, risk_bands.py, logging_utils.py"]
+        HomePage --> WorkspacePages
+        WorkspacePages --> UIHelpers
+    end
+
+    subgraph backendLayer [Backend Business Logic Layer]
+        UploadPrep["upload_preprocess.py (validate and align upload)"]
+        InferenceEngine["inference.py (recursive forecasting loop)"]
+        ModelAdapters["lstm_pred.py and xgboost_pred.py"]
+        DataUtils["constants.py and data_processing.py"]
+        UploadPrep --> InferenceEngine
+        DataUtils --> UploadPrep
+        InferenceEngine --> ModelAdapters
+    end
+
+    subgraph modelsLayer [Model Artifact Layer]
+        LSTMArtifacts["LSTM full-model artifacts"]
+        XGBArtifacts["XGBoost full-model artifacts"]
+    end
+
+    subgraph dbLayer [Persistence Layer]
+        SQLiteDB["db/database.py and air_quality.db"]
+    end
+
+    subgraph experimentLayer [Experiment and Training Layer]
+        TrainScripts["experiments/forecasting/notebooks"]
+        EvalPlots["experiment plots and reports"]
+        Bundles["experiments/models bundles"]
+        TrainScripts --> EvalPlots
+        TrainScripts --> Bundles
+    end
+
+    WorkspacePages --> UploadPrep
+    WorkspacePages <--> SQLiteDB
+    ModelAdapters --> LSTMArtifacts
+    ModelAdapters --> XGBArtifacts
+    Bundles --> LSTMArtifacts
+    Bundles --> XGBArtifacts
+    ModelAdapters --> WorkspacePages
 ```
 
 ## User Flow
 
 ```mermaid
 flowchart TD
-    Start["Open app"] --> UploadDataset["Upload dataset"]
-    UploadDataset --> Validate["Validate CSV"]
-    Validate --> Preprocess["Preprocess and align features"]
-    Preprocess --> SelectModelHorizon["Select model and horizon"]
-    SelectModelHorizon --> RunForecast["Run forecast"]
-    RunForecast --> ViewCharts["View charts and table"]
-    ViewCharts --> DownloadResults["Download results"]
+    OpenApp["Open app (Home page)"] --> AuthStep["Sign in or register"]
+    AuthStep --> Workspace["Open workspace pages"]
+    Workspace --> UploadCSV["Upload hourly CSV in Forecast page"]
+    UploadCSV --> ValidateData["Validate schema, timestamps, and cadence"]
+    ValidateData --> PreprocessData["Preprocess and create aligned past/future blocks"]
+    PreprocessData --> ChooseOptions["Select model (LSTM or XGBoost) and horizon (24, 72, 168)"]
+    ChooseOptions --> RunForecast["Run recursive forecast"]
+    RunForecast --> ShowResults["Show PM2.5 chart and prediction table"]
+    ShowResults --> DownloadCSV["Download forecast CSV"]
+    ShowResults --> SaveHistory["Save run to prediction history in SQLite"]
+    SaveHistory --> ReviewHistory["Review past runs in History page"]
 ```
 
 ## Forecasting Pipeline

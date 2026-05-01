@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
-
 import io
 
+import invoke_bootstrap  # noqa: F401 — ensures project root on sys.path
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
 from back_end.data_processing import drop_geo_columns
-
 from front_end import charts as ch
 from front_end.ui import configure_authenticated_workspace_page, empty_state, hero_title
 

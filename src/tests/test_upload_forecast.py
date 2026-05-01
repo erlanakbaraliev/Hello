@@ -21,7 +21,6 @@ from back_end.constants import (
     SUPPORTED_HORIZONS,
     TIME_FEATURE_COLUMNS,
     WEATHER_COLUMNS,
-    WINDOW,
     XGB_ARTIFACT_PATH,
     HorizonUnavailableError,
     UploadValidationError,
@@ -34,7 +33,6 @@ from back_end.upload_preprocess import (
     preprocess_uploaded_dataset,
 )
 from back_end.xgboost_pred import forecast_xgboost_full, load_full_xgboost
-
 
 # ─── Synthetic upload helpers ────────────────────────────────────────────────
 

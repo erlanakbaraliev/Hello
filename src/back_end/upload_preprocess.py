@@ -38,7 +38,6 @@ from back_end.constants import (
     UploadValidationError,
 )
 
-
 # ─── Result container ────────────────────────────────────────────────────────
 
 

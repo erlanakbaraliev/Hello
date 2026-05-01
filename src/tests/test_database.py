@@ -16,7 +16,6 @@ import pytest
 
 from db import database
 
-
 # ─── Fixtures ────────────────────────────────────────────────────────────────
 
 

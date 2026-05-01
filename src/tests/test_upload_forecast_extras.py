@@ -47,7 +47,6 @@ from back_end.upload_preprocess import (
 )
 from back_end.xgboost_pred import forecast_xgboost_full, load_full_xgboost
 
-
 FEAT_COLS = POLLUTANT_COLUMNS + WEATHER_COLUMNS + TIME_FEATURE_COLUMNS
 N_FEATURES = len(FEAT_COLS)
 N_TARGETS = len(POLLUTANT_COLUMNS)

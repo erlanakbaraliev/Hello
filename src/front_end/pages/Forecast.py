@@ -9,10 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from front_end.risk_bands import add_pm25_safety_column
-from front_end.ui import configure_authenticated_workspace_page, current_user_id, empty_state, hero_title
 from back_end.constants import (
-    SUPPORTED_HORIZONS,
     ArtifactMissingError,
     HorizonUnavailableError,
     UploadValidationError,
@@ -22,6 +19,13 @@ from back_end.lstm_pred import forecast_lstm_full
 from back_end.upload_preprocess import PreprocessedUpload, preprocess_uploaded_dataset
 from back_end.xgboost_pred import forecast_xgboost_full
 from db import save_prediction_artifacts
+from front_end.risk_bands import add_pm25_safety_column
+from front_end.ui import (
+    configure_authenticated_workspace_page,
+    current_user_id,
+    empty_state,
+    hero_title,
+)
 
 configure_authenticated_workspace_page(page_title="Forecast · Air quality")
 
